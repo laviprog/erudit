@@ -1,8 +1,10 @@
 import asyncio
 
+from src.bot import start_bot
+
 
 async def main():
-    print("Hello world!")
+    await start_bot()
 
 
 if __name__ == '__main__':
