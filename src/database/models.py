@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional, List
 
-from sqlalchemy import String, DateTime, ForeignKey, Enum as SQLEnum
+from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -18,7 +18,7 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = "users"
 
-    telegram_id: Mapped[int] = mapped_column(unique=True)
+    telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     username: Mapped[str] = mapped_column(String(50), unique=True)
     full_name: Mapped[Optional[str]] = mapped_column(String(50))
     phone_number: Mapped[Optional[str]] = mapped_column(String(20))
@@ -45,7 +45,7 @@ class Event(Base):
     )
 
 
-class Status(str, Enum):
+class Status(Enum):
     PENDING = "pending"
     APPROVED = "approved"
     DECLINED = "declined"
@@ -58,7 +58,7 @@ class Application(Base):
     event_id: Mapped[int] = mapped_column(ForeignKey("events.id", ondelete="CASCADE"))
     team_name: Mapped[str]
     team_size: Mapped[int]
-    status: Mapped[Status] = mapped_column(SQLEnum(Status), default=Status.PENDING)
+    status: Mapped[Status] = mapped_column(default=Status.PENDING)
 
     user = relationship(
         "User",
