@@ -1,5 +1,6 @@
 from src.bot.messages import Message
-from src.bot.messages.keyboards import reply_keyboard, reply_keyboard_create_profile, reply_keyboard_remove, reply_keyboard_phone_number
+from src.bot.messages.keyboards import reply_keyboard, reply_keyboard_create_profile, reply_keyboard_remove, \
+    reply_keyboard_phone_number, inline_keyboard_profile_management
 from src.database.models import User
 
 
@@ -36,13 +37,14 @@ async def about_message() -> Message:
     )
 
 
-async def profile_message(user: User) -> Message:
+async def profile_message(user: User, callback_id: str) -> Message:
     return Message(
         text=(
             f"Your profile:\n"
             f"Name: {user.full_name}\n"
             f"Phone: {user.phone_number}"
         ),
+        keyboard=await inline_keyboard_profile_management(callback_id)
     )
 
 
@@ -66,6 +68,15 @@ async def create_profile_message(user: User) -> Message:
     return Message(
         text=(
             "Let's start registration!\n"
+            "Enter your full name (for example, Ivan Ivanov)"
+        ),
+        keyboard=await reply_keyboard_remove(),
+    )
+
+async def update_profile_message() -> Message:
+    return Message(
+        text=(
+            "Let's start update profile!\n"
             "Enter your full name (for example, Ivan Ivanov)"
         ),
         keyboard=await reply_keyboard_remove(),

@@ -36,5 +36,11 @@ async def reply_keyboard_phone_number():
     )
 
 
+async def inline_keyboard_profile_management(callback_id: str):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✏️ Изменить профиль", callback_data=f"edit_profile:{callback_id}")],
+    ])
+
+
 async def reply_keyboard_remove():
     return ReplyKeyboardRemove()

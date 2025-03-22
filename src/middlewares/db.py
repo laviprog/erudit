@@ -1,5 +1,5 @@
 from aiogram.types import Update
-from aiogram.dispatcher.middlewares.base import BaseMiddleware
+from aiogram import BaseMiddleware
 from typing import Callable, Dict, Any, Awaitable
 from src.database import get_db
 

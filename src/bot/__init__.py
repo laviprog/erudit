@@ -8,6 +8,7 @@ from src.bot.handlers import register_handlers
 from src.config import settings
 from src.database import engine
 from src.middlewares.db import DbSessionMiddleware
+from src.middlewares.redis import RedisMiddleware
 
 bot = Bot(
     token=settings.BOT_TOKEN,
@@ -23,6 +24,7 @@ async def start_bot():
 
         dp = Dispatcher(storage=storage)
         dp.update.middleware(DbSessionMiddleware())
+        dp.update.middleware(RedisMiddleware(redis))
 
         register_handlers(dp)
 

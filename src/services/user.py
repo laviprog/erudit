@@ -24,3 +24,6 @@ class UserService(Service[User]):
 
         user = User(telegram_id=telegram_id, **kwargs)
         return await self.repository.add(user)
+
+    async def update(self, user: User, **kwargs) -> User:
+        return await self.repository.update(user, **kwargs)
